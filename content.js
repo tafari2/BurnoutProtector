@@ -193,10 +193,60 @@ function startFiltering() {
       });
     });
   });
-  
+
+  // Store observer globally so we can disconnect it later
+  window.burnoutObserver = observer;
+
   observer.observe(document.body, {
     childList: true,
     subtree: true
+  });
+}
+
+// Helper functions for dynamic filtering without page reload
+function restartFiltering() {
+  // Clear any existing observer and restart filtering
+  if (window.burnoutObserver) {
+    window.burnoutObserver.disconnect();
+  }
+  startFiltering();
+}
+
+function restoreFilteredContent() {
+  // Find all filtered elements and restore their original content
+  const filteredElements = document.querySelectorAll('.burnout-protector-shield');
+  filteredElements.forEach(shieldElement => {
+    if (shieldElement._originalElement) {
+      shieldElement.replaceWith(shieldElement._originalElement);
+    }
+  });
+
+  // Disconnect observer when disabled
+  if (window.burnoutObserver) {
+    window.burnoutObserver.disconnect();
+    window.burnoutObserver = null;
+  }
+}
+
+function rescanContent() {
+  // Re-scan all content with new settings without removing existing filters
+  const selectors = {
+    twitter: '[data-testid="tweet"]',
+    reddit: '.Post, [data-test-id="post-content"]',
+    youtube: 'ytd-video-renderer, ytd-grid-video-renderer, ytd-compact-video-renderer',
+    facebook: '[data-pagelet*="FeedUnit"]',
+    general: 'article, .post, .entry, .story'
+  };
+
+  const allSelectors = Object.values(selectors).join(', ');
+
+  // Only scan elements that haven't been checked yet or need re-checking
+  document.querySelectorAll(allSelectors).forEach(element => {
+    if (!element.classList.contains('burnout-protector-shield')) {
+      // Remove the checked attribute to allow re-scanning
+      element.removeAttribute('data-burnout-checked');
+      filterElement(element);
+    }
   });
 }
 
@@ -205,10 +255,21 @@ if (chrome.storage && chrome.storage.onChanged) {
   chrome.storage.onChanged.addListener((changes) => {
     try {
       if (changes.settings) {
+        const oldSettings = { ...settings };
         settings = { ...settings, ...changes.settings.newValue };
-        // Re-scan if needed
-        if (settings.enabled) {
-          location.reload();
+
+        // Handle settings changes without page reload
+        if (settings.enabled !== oldSettings.enabled) {
+          if (settings.enabled) {
+            // Extension was just enabled - start filtering
+            restartFiltering();
+          } else {
+            // Extension was disabled - restore filtered content
+            restoreFilteredContent();
+          }
+        } else if (settings.enabled) {
+          // Settings changed while enabled - re-scan existing content
+          rescanContent();
         }
       }
     } catch (error) {

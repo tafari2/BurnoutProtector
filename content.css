@@ -1,0 +1,161 @@
+/* Burnout Protector - Content Styles */
+
+.burnout-protector-shield {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+  border: 2px solid #c8e6c9;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 12px 0;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.burnout-protector-shield::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.burnout-protector-shield:hover::before {
+  opacity: 1;
+}
+
+.burnout-protector-shield:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.burnout-content {
+  text-align: center;
+  z-index: 1;
+  max-width: 500px;
+}
+
+.calming-image {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  animation: fadeIn 0.5s ease;
+}
+
+.quote {
+  font-size: 18px;
+  font-weight: 500;
+  color: #2e7d32;
+  margin-bottom: 12px;
+  font-style: italic;
+  line-height: 1.6;
+  animation: fadeIn 0.7s ease;
+}
+
+.filter-label {
+  font-size: 13px;
+  color: #66bb6a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  opacity: 0.8;
+  animation: fadeIn 0.9s ease;
+}
+
+.peek-button {
+  background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 187, 106, 0.3);
+  animation: fadeIn 1.1s ease;
+}
+
+.peek-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 187, 106, 0.4);
+  background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+}
+
+.peek-button:active {
+  transform: translateY(0);
+}
+
+/* Different themes for different categories */
+.burnout-protector-shield[data-category="politics"] {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-color: #90caf9;
+}
+
+.burnout-protector-shield[data-category="aiTech"] {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  border-color: #ce93d8;
+}
+
+.burnout-protector-shield[data-category="gambling"] {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-color: #ffcc80;
+}
+
+.burnout-protector-shield[data-category="negative"] {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+  border-color: #f48fb1;
+}
+
+.burnout-protector-shield[data-category="disaster"] {
+  background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+  border-color: #80cbc4;
+}
+
+.burnout-protector-shield[data-category="celebrity"] {
+  background: linear-gradient(135deg, #fef5e7 0%, #fdebd0 100%);
+  border-color: #f9e79f;
+}
+
+.burnout-protector-shield[data-category="financial"] {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-color: #a5d6a7;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .burnout-protector-shield {
+    padding: 16px;
+    min-height: 150px;
+  }
+  
+  .calming-image {
+    max-width: 200px;
+  }
+  
+  .quote {
+    font-size: 16px;
+  }
+}

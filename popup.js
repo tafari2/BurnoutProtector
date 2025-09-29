@@ -19,6 +19,11 @@ let settings = {
 
 // Load settings on popup open
 chrome.storage.sync.get(['settings'], (result) => {
+  if (chrome.runtime.lastError) {
+    console.error('Burnout Protector: Error loading settings:', chrome.runtime.lastError);
+    updateUI();
+    return;
+  }
   if (result.settings) {
     settings = { ...settings, ...result.settings };
   }
@@ -47,14 +52,23 @@ function updateUI() {
 
 function saveSettings() {
   chrome.storage.sync.set({ settings }, () => {
+    if (chrome.runtime.lastError) {
+      console.error('Burnout Protector: Error saving settings:', chrome.runtime.lastError);
+      return;
+    }
     // Notify content scripts
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (chrome.runtime.lastError) {
+        console.error('Burnout Protector: Error querying tabs:', chrome.runtime.lastError);
+        return;
+      }
       if (tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, { 
-          action: 'settingsUpdated', 
-          settings 
-        }).catch(() => {
-          // Tab might not have content script
+        chrome.tabs.sendMessage(tabs[0].id, {
+          action: 'settingsUpdated',
+          settings
+        }).catch((error) => {
+          // Tab might not have content script - this is normal
+          console.debug('Burnout Protector: Could not send message to tab:', error.message);
         });
       }
     });

@@ -182,6 +182,42 @@ Burnout Protector isn't about censorship or creating echo chambers. It's about:
 
 You can always peek at filtered content. You're in control.
 
+## 🔧 Development Notes
+
+### Recent Improvements (v1.0.1)
+
+**✅ Extension Functionality**
+- **Icon files**: Created required PNG icons (16x16, 48x48, 128x128)
+- **Website coverage**: Expanded from 7 to 30+ supported websites including major social platforms and news sites
+- **Error handling**: Added comprehensive error handling for all Chrome API calls
+- **Reliability**: Improved extension stability and graceful degradation
+
+**🌐 Supported Platforms**
+- Social Media: Twitter/X, Reddit, YouTube, Facebook, Instagram, TikTok, LinkedIn
+- News Sites: CNN, BBC, NYTimes, Reuters, Guardian, AP, NPR, Fox News, MSNBC, etc.
+- Tech Sites: TechCrunch, Wired, Ars Technica, The Verge, Engadget, Gizmodo
+- Discussion: Hacker News, Reddit variants
+
+**📋 For Developers**
+- All Chrome API calls now include proper error handling
+- Extension gracefully handles missing permissions or API failures
+- Console warnings instead of silent failures for better debugging
+- Settings validation and corruption recovery
+
+### Testing the Extension
+
+1. **Load in Chrome**: Navigate to `chrome://extensions/`, enable Developer Mode, click "Load unpacked"
+2. **Test filtering**: Visit supported sites and verify content filtering works
+3. **Check settings**: Click extension icon to verify settings panel opens and saves
+4. **Monitor console**: Check for any error messages in browser console
+
+### Known Limitations
+
+- Icon files are simple colored squares (functional but not polished)
+- No content scripts for non-HTTPS sites
+- Filtering patterns are English-only
+- No user-defined custom patterns yet
+
 ## 📄 License
 
 MIT License - Feel free to modify and distribute!

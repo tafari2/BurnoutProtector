@@ -68,6 +68,11 @@ let settings = {
 
 // Load settings from storage
 chrome.storage.sync.get(['settings'], (result) => {
+  if (chrome.runtime.lastError) {
+    console.warn('Burnout Protector: Error loading settings:', chrome.runtime.lastError);
+    startFiltering();
+    return;
+  }
   if (result.settings) {
     settings = { ...settings, ...result.settings };
   }
@@ -152,7 +157,11 @@ function filterElement(element) {
     element.replaceWith(replacement);
     
     settings.filterCount++;
-    chrome.storage.sync.set({ settings });
+    chrome.storage.sync.set({ settings }, () => {
+      if (chrome.runtime.lastError) {
+        console.warn('Burnout Protector: Error saving filter count:', chrome.runtime.lastError);
+      }
+    });
   }
 }
 
@@ -192,12 +201,18 @@ function startFiltering() {
 }
 
 // Listen for setting changes
-chrome.storage.onChanged.addListener((changes) => {
-  if (changes.settings) {
-    settings = { ...settings, ...changes.settings.newValue };
-    // Re-scan if needed
-    if (settings.enabled) {
-      location.reload();
+if (chrome.storage && chrome.storage.onChanged) {
+  chrome.storage.onChanged.addListener((changes) => {
+    try {
+      if (changes.settings) {
+        settings = { ...settings, ...changes.settings.newValue };
+        // Re-scan if needed
+        if (settings.enabled) {
+          location.reload();
+        }
+      }
+    } catch (error) {
+      console.warn('Burnout Protector: Error handling settings change:', error);
     }
-  }
-});
+  });
+}

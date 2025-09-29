@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="innerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#66bb6a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4caf50;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer shield -->
+  <path d="M64 8 C64 8, 24 16, 24 44 C24 80, 64 120, 64 120 C64 120, 104 80, 104 44 C104 16, 64 8, 64 8 Z"
+        fill="url(#shieldGradient)"
+        stroke="#4a5aa8"
+        stroke-width="2"/>
+
+  <!-- Inner protection symbol -->
+  <circle cx="64" cy="54" r="20" fill="url(#innerGradient)" opacity="0.9"/>
+
+  <!-- Checkmark for protection -->
+  <path d="M56 54 L60 58 L72 46"
+        stroke="white"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+
+  <!-- Subtle highlight -->
+  <ellipse cx="52" cy="32" rx="8" ry="4" fill="white" opacity="0.3"/>
+</svg>
